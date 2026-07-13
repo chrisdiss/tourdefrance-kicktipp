@@ -1,29 +1,32 @@
-// Tour de France 2026 Tipprunde — Daten (Stand: Etappe 9 von 21)
-// Quelle: bestehende Kicktipp-Seite. Etappenpunkte werden aus Gesamt/Schnitt/Bester/Schwächster Tag rekonstruiert.
+// Tour de France 2026 Tipprunde — Daten
+// ⚠️  AUTOMATISCH GENERIERT von build_data.py aus tdf_tippspiel_master.xlsx.
+//     Nicht von Hand bearbeiten — stattdessen die xlsx ändern und
+//     `python build_data.py` ausführen.
 export const STAGES_DONE = 9;
 export const STAGES_TOTAL = 21;
 
 export const PLAYERS = [
-  {n:'Bendix',    avg:37.7, best:[6,60], worst:[4,2],  tip:null,                          tipPts:0, ranks:[8,14,14,16,16,16,14,11,13]},
-  {n:'Chris',     avg:40.8, best:[3,68], worst:[4,6],  tip:'UAE Team Emirates - XRG',     tipPts:6, ranks:[4,7,7,9,9,9,7,7,10]},
-  {n:'Chrysli',   avg:22.7, best:[6,38], worst:[9,5],  tip:'Decathlon CMA CGM Team',      tipPts:0, ranks:[16,16,17,17,17,17,17,17,17]},
-  {n:'Cindy',     avg:40.8, best:[6,79], worst:[4,0],  tip:'Alpecin - Premier Tech',      tipPts:0, ranks:[2,1,1,2,7,4,10,14,10]},
-  {n:'Conni K',   avg:47.6, best:[3,90], worst:[9,12], tip:'UAE Team Emirates - XRG',     tipPts:6, ranks:[3,3,1,1,2,1,1,2,2]},
-  {n:'Jakob',     avg:41.4, best:[6,72], worst:[4,0],  tip:'UAE Team Emirates - XRG',     tipPts:6, ranks:[1,4,4,7,12,7,9,9,7]},
-  {n:'Jule',      avg:36.3, best:[3,73], worst:[4,10], tip:'UAE Team Emirates - XRG',     tipPts:6, ranks:[13,12,9,10,11,12,12,13,14]},
-  {n:'Konsti',    avg:32.9, best:[2,62], worst:[8,9],  tip:'EF Education - EasyPost',     tipPts:2, ranks:[11,6,12,11,14,14,15,16,16]},
-  {n:'Lanci',     avg:41.1, best:[6,75], worst:[5,12], tip:'XDS Astana Team',             tipPts:4, ranks:[7,5,6,4,5,3,6,8,8]},
-  {n:'Lea',       avg:38.3, best:[3,68], worst:[9,10], tip:'Team Visma | Lease a Bike',   tipPts:0, ranks:[6,10,8,7,8,11,11,10,12]},
-  {n:'Nora',      avg:34.3, best:[3,64], worst:[4,0],  tip:'UAE Team Emirates - XRG',     tipPts:6, ranks:[5,9,9,12,15,15,16,15,15]},
-  {n:'Reto',      avg:46.7, best:[3,65], worst:[4,0],  tip:'Red Bull - BORA - hansgrohe', tipPts:0, ranks:[11,11,11,13,9,10,4,3,3]},
-  {n:'Richard NB',avg:52.3, best:[5,71], worst:[7,37], tip:'UAE Team Emirates - XRG',     tipPts:6, ranks:[14,13,12,6,1,2,2,1,1]},
-  {n:'Rikki',     avg:42.2, best:[5,67], worst:[9,21], tip:'UAE Team Emirates - XRG',     tipPts:6, ranks:[15,17,16,15,6,7,8,4,6]},
-  {n:'Sebbo',     avg:43.8, best:[2,77], worst:[4,10], tip:'Team Visma | Lease a Bike',   tipPts:0, ranks:[8,2,3,3,3,5,5,4,4]},
-  {n:'Simi',      avg:41.1, best:[3,58], worst:[1,25], tip:'UAE Team Emirates - XRG',     tipPts:6, ranks:[17,15,15,14,12,13,12,11,8]},
-  {n:'Till',      avg:43.1, best:[3,75], worst:[5,18], tip:'UAE Team Emirates - XRG',     tipPts:6, ranks:[10,8,5,5,4,6,3,6,5]},
+  {n:'Bendix', avg:37.7, best:[6,60], worst:[4,2], tip:null, tipPts:0, stages:[53,35,59,2,25,60,45,50,10], ranks:[8,14,14,16,16,16,14,11,13]},
+  {n:'Chris', avg:40.8, best:[3,68], worst:[4,6], tip:'UAE Team Emirates - XRG', tipPts:6, stages:[61,48,68,6,26,65,41,42,10], ranks:[4,7,7,9,9,9,7,7,10]},
+  {n:'Chrysli', avg:22.7, best:[6,38], worst:[9,5], tip:'Decathlon CMA CGM Team', tipPts:0, stages:[34,37,31,11,11,38,23,14,5], ranks:[16,16,17,17,17,17,17,17,17]},
+  {n:'Cindy', avg:40.8, best:[6,79], worst:[4,0], tip:'Alpecin - Premier Tech', tipPts:0, stages:[67,78,73,0,0,79,7,8,55], ranks:[2,1,1,2,7,4,10,14,10]},
+  {n:'Conni K', avg:47.6, best:[3,90], worst:[9,12], tip:'UAE Team Emirates - XRG', tipPts:6, stages:[66,62,90,29,19,80,40,30,12], ranks:[3,3,1,1,2,1,1,2,2]},
+  {n:'Jakob', avg:41.4, best:[6,72], worst:[4,0], tip:'UAE Team Emirates - XRG', tipPts:6, stages:[71,49,70,0,15,72,30,31,35], ranks:[1,4,4,7,12,7,9,9,7]},
+  {n:'Jule', avg:36.3, best:[3,73], worst:[4,10], tip:'UAE Team Emirates - XRG', tipPts:6, stages:[40,53,73,10,31,54,28,24,14], ranks:[13,12,9,10,11,12,12,13,14]},
+  {n:'Konsti', avg:32.9, best:[2,62], worst:[8,9], tip:'EF Education - EasyPost', tipPts:2, stages:[50,62,45,10,20,60,14,9,26], ranks:[11,6,12,11,14,14,15,16,16]},
+  {n:'Lanci', avg:41.1, best:[6,75], worst:[5,12], tip:'XDS Astana Team', tipPts:4, stages:[54,59,68,30,12,75,22,25,25], ranks:[7,5,6,4,5,3,6,8,8]},
+  {n:'Lea', avg:38.3, best:[3,68], worst:[9,10], tip:'Team Visma | Lease a Bike', tipPts:0, stages:[55,46,68,21,21,56,31,37,10], ranks:[6,10,8,7,8,11,11,10,12]},
+  {n:'Nora', avg:34.3, best:[3,64], worst:[4,0], tip:'UAE Team Emirates - XRG', tipPts:6, stages:[57,45,64,0,11,63,16,18,35], ranks:[5,9,9,12,15,15,16,15,15]},
+  {n:'Reto', avg:46.7, best:[3,65], worst:[4,0], tip:'Red Bull - BORA - hansgrohe', tipPts:0, stages:[50,48,65,0,46,62,53,50,46], ranks:[11,11,11,13,9,10,4,3,3]},
+  {n:'Richard NB', avg:52.3, best:[5,71], worst:[7,37], tip:'UAE Team Emirates - XRG', tipPts:6, stages:[39,52,66,48,71,60,37,45,53], ranks:[14,13,12,6,1,2,2,1,1]},
+  {n:'Rikki', avg:42.2, best:[5,67], worst:[9,21], tip:'UAE Team Emirates - XRG', tipPts:6, stages:[35,29,44,45,67,57,37,45,21], ranks:[15,17,16,15,6,7,8,4,6]},
+  {n:'Sebbo', avg:43.8, best:[2,77], worst:[4,10], tip:'Team Visma | Lease a Bike', tipPts:0, stages:[53,77,76,10,14,66,26,37,35], ranks:[8,2,3,3,3,5,5,4,4]},
+  {n:'Simi', avg:41.1, best:[3,58], worst:[1,25], tip:'UAE Team Emirates - XRG', tipPts:6, stages:[25,47,58,27,48,51,33,40,41], ranks:[17,15,15,14,12,13,12,11,8]},
+  {n:'Till', avg:43.1, best:[3,75], worst:[5,18], tip:'UAE Team Emirates - XRG', tipPts:6, stages:[52,55,75,25,18,63,38,32,30], ranks:[10,8,5,5,4,6,3,6,5]},
 ];
 
-// Fahrer: n, t=Team, s=Spezialist, a=Alter, b=Startnummer, p=Punkte gesamt, bd=[Etappe,Punkte] bester Tag, by=getippt von
+// Fahrer: n, t=Team, s=Spezialist, a=Alter, b=Startnummer, p=Punkte gesamt,
+// bd=[Etappe,Punkte] bester Tag, by=getippt von
 export const RIDERS = [
   {n:'Pogačar Tadej', t:'UAE Team Emirates - XRG', s:'Climber', a:27, b:1, p:117, bd:[3,30], by:['Bendix','Chris','Cindy','Conni K','Jakob','Jule','Lanci','Lea','Nora','Reto','Richard NB','Rikki','Sebbo','Simi','Till']},
   {n:'Vingegaard Jonas', t:'Team Visma | Lease a Bike', s:'GC', a:29, b:11, p:83, bd:[1,28], by:['Bendix','Chris','Cindy','Conni K','Jakob','Lanci','Lea','Nora','Till']},
@@ -39,8 +42,8 @@ export const RIDERS = [
   {n:'Philipsen Jasper', t:'Alpecin - Premier Tech', s:'Sprint', a:28, b:105, p:34, bd:[8,12], by:['Chris','Chrysli','Jule','Lea','Nora','Reto','Richard NB','Rikki','Simi']},
   {n:'Ayuso Juan', t:'Lidl - Trek', s:'Climber', a:23, b:31, p:33, bd:[1,14], by:['Conni K','Jakob','Konsti','Richard NB','Sebbo']},
   {n:'Wærenskjold Søren', t:'Uno-X Mobility', s:'Classic', a:26, b:128, p:32, bd:[7,20], by:['Conni K']},
-  {n:'van der Poel Mathieu', t:'Alpecin - Premier Tech', s:'Classic', a:31, b:101, p:31, bd:[9,25], by:['Cindy','Jakob','Nora','Reto']},
   {n:'Ganna Filippo', t:'Netcompany INEOS', s:'TT', a:29, b:84, p:31, bd:[1,20], by:['Reto']},
+  {n:'van der Poel Mathieu', t:'Alpecin - Premier Tech', s:'Classic', a:31, b:101, p:31, bd:[9,25], by:['Cindy','Jakob','Nora','Reto']},
   {n:'Lipowitz Florian', t:'Red Bull - BORA - hansgrohe', s:'GC', a:25, b:25, p:27, bd:[6,10], by:['Bendix','Chrysli','Jule','Konsti','Lanci','Rikki','Sebbo']},
   {n:'Skjelmose Mattias', t:'Lidl - Trek', s:'Climber', a:25, b:35, p:24, bd:[2,11], by:['Conni K','Lanci','Reto']},
   {n:'Pidcock Tom', t:'Pinarello Q36.5 Pro Cycling Team', s:'Classic', a:26, b:171, p:23, bd:[9,15], by:['Cindy','Konsti','Lanci']},
@@ -49,42 +52,43 @@ export const RIDERS = [
   {n:'Baudin Alex', t:'EF Education - EasyPost', s:'Climber', a:25, b:43, p:19, bd:[9,12], by:['Richard NB']},
   {n:'Ackermann Pascal', t:'Team Jayco AlUla', s:'Sprint', a:32, b:112, p:18, bd:[8,10], by:['Sebbo']},
   {n:'Carapaz Richard', t:'EF Education - EasyPost', s:'Climber', a:33, b:41, p:17, bd:[3,15], by:['Conni K','Jule','Lea','Reto']},
-  {n:'Martinez Lenny', t:'Bahrain - Victorious', s:'Climber', a:22, b:71, p:17, bd:[2,7], by:['Lanci','Lea','Reto','Richard NB','Rikki','Simi']},
   {n:'Fretin Milan', t:'Cofidis', s:'Classic', a:25, b:165, p:17, bd:[5,8], by:[]},
+  {n:'Martinez Lenny', t:'Bahrain - Victorious', s:'Climber', a:22, b:71, p:17, bd:[2,7], by:['Lanci','Lea','Reto','Richard NB','Rikki','Simi']},
   {n:'Bittner Pavel', t:'Team Picnic PostNL', s:'Sprint', a:23, b:213, p:16, bd:[8,11], by:[]},
-  {n:'Van Eetvelt Lennert', t:'Lotto Intermarché', s:'Climber', a:24, b:156, p:15, bd:[3,10], by:['Jule','Sebbo']},
-  {n:'Matthews Michael', t:'Team Jayco AlUla', s:'Classic', a:35, b:115, p:15, bd:[9,10], by:[]},
   {n:'García Pierna Raúl', t:'Movistar Team', s:'GC', a:25, b:144, p:15, bd:[4,15], by:[]},
+  {n:'Matthews Michael', t:'Team Jayco AlUla', s:'Classic', a:35, b:115, p:15, bd:[9,10], by:[]},
   {n:'Quinn Sean', t:'EF Education - EasyPost', s:'GC', a:26, b:45, p:15, bd:[4,9], by:[]},
+  {n:'Van Eetvelt Lennert', t:'Lotto Intermarché', s:'Climber', a:24, b:156, p:15, bd:[3,10], by:['Jule','Sebbo']},
   {n:'Træen Torstein', t:'Uno-X Mobility', s:'GC', a:30, b:127, p:14, bd:[4,11], by:[]},
   {n:'Grégoire Romain', t:'Groupama - FDJ United', s:'Classic', a:23, b:181, p:13, bd:[2,9], by:['Jule','Sebbo']},
   {n:'Jegat Jordan', t:'TotalEnergies', s:'Climber', a:27, b:201, p:13, bd:[9,7], by:[]},
   {n:'Frigo Marco', t:'NSN Cycling Team', s:'Climber', a:26, b:134, p:12, bd:[4,12], by:[]},
-  {n:'Vacek Mathias', t:'Lidl - Trek', s:'TT', a:24, b:37, p:11, bd:[4,9], by:['Conni K','Richard NB','Till']},
   {n:'Debruyne Ramses', t:'Alpecin - Premier Tech', s:'Climber', a:23, b:102, p:11, bd:[4,11], by:['Chrysli']},
   {n:'Godon Dorian', t:'Netcompany INEOS', s:'Hills', a:30, b:85, p:11, bd:[7,8], by:['Simi','Till']},
-  {n:'Russo Clément', t:'Groupama - FDJ United', s:'Classic', a:31, b:188, p:11, bd:[8,8], by:[]},
   {n:'Pluimers Rick', t:'Tudor Pro Cycling Team', s:'Classic', a:25, b:195, p:11, bd:[8,9], by:[]},
-  {n:'Vauquelin Kévin', t:'Netcompany INEOS', s:'GC', a:25, b:88, p:10, bd:[4,10], by:['Jule','Konsti','Lanci','Richard NB','Rikki','Sebbo','Till']},
+  {n:'Russo Clément', t:'Groupama - FDJ United', s:'Classic', a:31, b:188, p:11, bd:[8,8], by:[]},
+  {n:'Vacek Mathias', t:'Lidl - Trek', s:'TT', a:24, b:37, p:11, bd:[4,9], by:['Conni K','Richard NB','Till']},
   {n:'Bauhaus Phil', t:'Bahrain - Victorious', s:'Sprint', a:31, b:72, p:10, bd:[7,10], by:['Chrysli']},
+  {n:'Vauquelin Kévin', t:'Netcompany INEOS', s:'GC', a:25, b:88, p:10, bd:[4,10], by:['Jule','Konsti','Lanci','Richard NB','Rikki','Sebbo','Till']},
   {n:'Piganzoli Davide', t:'Team Visma | Lease a Bike', s:'GC', a:23, b:18, p:9, bd:[1,9], by:['Chris','Chrysli','Lea','Rikki']},
   {n:'Van Wilder Ilan', t:'Soudal Quick-Step', s:'GC', a:26, b:97, p:9, bd:[3,4], by:['Chris']},
   {n:'Breuillard Nicolas', t:'TotalEnergies', s:'GC', a:26, b:202, p:8, bd:[9,8], by:[]},
-  {n:'Kuss Sepp', t:'Team Visma | Lease a Bike', s:'Climber', a:31, b:17, p:7, bd:[6,7], by:['Reto','Rikki']},
   {n:'Bernal Egan', t:'Netcompany INEOS', s:'GC', a:29, b:81, p:7, bd:[6,5], by:[]},
+  {n:'Kuss Sepp', t:'Team Visma | Lease a Bike', s:'Climber', a:31, b:17, p:7, bd:[6,7], by:['Reto','Rikki']},
   {n:'Turgis Anthony', t:'TotalEnergies', s:'Classic', a:32, b:207, p:7, bd:[5,6], by:[]},
   {n:'Castrillo Pablo', t:'Movistar Team', s:'Climber', a:25, b:142, p:6, bd:[4,6], by:['Chris','Rikki','Till']},
   {n:'Foss Tobias', t:'Netcompany INEOS', s:'TT', a:29, b:83, p:6, bd:[1,6], by:[]},
   {n:'Van Asbroeck Tom', t:'NSN Cycling Team', s:'Classic', a:36, b:138, p:6, bd:[7,6], by:[]},
   {n:'Berckmoes Jenno', t:'Lotto Intermarché', s:'Classic', a:25, b:153, p:5, bd:[5,5], by:[]},
   {n:'Gaviria Fernando', t:'Caja Rural - Seguros RGA', s:'Sprint', a:31, b:221, p:5, bd:[8,3], by:[]},
+  {n:'Delettre Alexandre', t:'TotalEnergies', s:'Classic', a:28, b:204, p:4, bd:[4,4], by:[]},
   {n:'Molenaar Alex', t:'Caja Rural - Seguros RGA', s:'Hills', a:26, b:224, p:3, bd:[2,2], by:['Lea']},
   {n:'Tejada Harold', t:'XDS Astana Team', s:'Climber', a:29, b:65, p:3, bd:[6,3], by:[]},
   {n:'Tiberi Antonio', t:'Bahrain - Victorious', s:'GC', a:25, b:77, p:3, bd:[1,3], by:[]},
   {n:'Van Mechelen Vlad', t:'Bahrain - Victorious', s:'Sprint', a:22, b:78, p:3, bd:[4,3], by:[]},
   {n:'Aranburu Alex', t:'Cofidis', s:'Classic', a:30, b:163, p:2, bd:[9,2], by:['Conni K']},
-  {n:'Stuyven Jasper', t:'Soudal Quick-Step', s:'Classic', a:34, b:94, p:2, bd:[4,2], by:['Bendix','Rikki']},
   {n:'Riccitello Matthew', t:'Decathlon CMA CGM Team', s:'GC', a:24, b:58, p:2, bd:[1,2], by:[]},
+  {n:'Stuyven Jasper', t:'Soudal Quick-Step', s:'Classic', a:34, b:94, p:2, bd:[4,2], by:['Bendix','Rikki']},
   {n:'Benoot Tiesj', t:'Decathlon CMA CGM Team', s:'Classic', a:32, b:52, p:1, bd:[9,1], by:[]},
   {n:'Abrahamsen Jonas', t:'Uno-X Mobility', s:'Classic', a:30, b:122, p:0, bd:null, by:['Chris','Till']},
   {n:'Affini Edoardo', t:'Team Visma | Lease a Bike', s:'TT', a:30, b:12, p:0, bd:null, by:['Chris']},
@@ -107,9 +111,9 @@ export const RIDERS = [
   {n:'Izagirre Ion', t:'Cofidis', s:'GC', a:37, b:161, p:0, bd:null, by:['Till']},
   {n:'Jorgenson Matteo', t:'Team Visma | Lease a Bike', s:'GC', a:27, b:16, p:0, bd:null, by:['Chrysli']},
   {n:'Kwiatkowski Michał', t:'Netcompany INEOS', s:'Classic', a:36, b:86, p:0, bd:null, by:['Till']},
-  {n:'Mc Nulty Brandon', t:'UAE Team Emirates - XRG', s:'GC', a:28, b:4, p:0, bd:null, by:['Chrysli','Simi']},
+  {n:'McNulty Brandon', t:'UAE Team Emirates - XRG', s:'GC', a:28, b:4, p:0, bd:null, by:['Chrysli','Simi']},
   {n:'Mohorič Matej', t:'Bahrain - Victorious', s:'Classic', a:31, b:75, p:0, bd:null, by:['Till']},
-  {n:'O’Connor Ben', t:'Team Jayco AlUla', s:'GC', a:30, b:111, p:0, bd:null, by:['Bendix','Chrysli']},
+  {n:'O\'Connor Ben', t:'Team Jayco AlUla', s:'GC', a:30, b:111, p:0, bd:null, by:['Bendix','Chrysli']},
   {n:'Paret-Peintre Valentin', t:'Soudal Quick-Step', s:'Climber', a:25, b:93, p:0, bd:null, by:['Jule','Simi']},
   {n:'Parra José Félix', t:'Caja Rural - Seguros RGA', s:'GC', a:29, b:228, p:0, bd:null, by:['Richard NB']},
   {n:'Plapp Luke', t:'Team Jayco AlUla', s:'GC', a:25, b:117, p:0, bd:null, by:['Bendix']},
@@ -136,7 +140,7 @@ export const TEAM_TIP_PTS = {
   'EF Education - EasyPost': 2,
 };
 
-// Teamfunk — Trash Talk der Runde. Einfach eigene Sprüche ergänzen/ersetzen.
+// Teamfunk — Trash Talk der Runde (Sheet 'Quotes' in der xlsx pflegen).
 export const QUOTES = [
   {by:'Richard NB', txt:'Funkspruch: Du sitzt im Gelben Trikot — nicht nervös werden, deine Picks tragen dich. Locker bleiben bis Paris.'},
   {by:'Conni K', txt:'Bleib am Hinterrad des Führenden, gib nicht nach. Zwei Bergetappen, dann drehst du auf und tippst ihn nieder.'},
@@ -150,33 +154,12 @@ export const QUOTES = [
   {by:'Till', txt:'Dein Team-Tipp läuft wie ein Uhrwerk. Halt die Position, sichere die Zähler — heute nichts Dummes riskieren.'},
 ];
 
-// Rekonstruiert 9 Etappenwerte: Summe = total, bester/schwächster Tag fixiert.
-export function genStages(total, best, worst, seed){
-  const n = STAGES_DONE, pts = new Array(n).fill(null);
-  pts[best[0]-1] = best[1]; pts[worst[0]-1] = worst[1];
-  const rest = []; for (let i=0;i<n;i++) if (pts[i]===null) rest.push(i);
-  let rem = total - best[1] - worst[1];
-  let x = (seed*2654435761)>>>0 || 1;
-  const rnd = () => ((x = (x*1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
-  const lo = worst[1]+1, hi = best[1]-1;
-  const w = rest.map(()=>0.55 + rnd()*0.9), ws = w.reduce((a,b)=>a+b,0);
-  let vals = w.map(v => Math.max(lo, Math.min(hi, Math.round(rem*v/ws))));
-  let diff = rem - vals.reduce((a,b)=>a+b,0), guard = 0;
-  while (diff !== 0 && guard++ < 2000){
-    const j = guard % vals.length, step = Math.sign(diff);
-    const nv = vals[j] + step;
-    if (nv >= lo && nv <= hi){ vals[j] = nv; diff -= step; }
-  }
-  rest.forEach((idx,k)=>{ pts[idx] = vals[k]; });
-  return pts;
-}
-
 export function buildPlayers(){
-  return PLAYERS.map((p,i)=>{
-    const total = Math.round(p.avg*9);
-    const stages = genStages(total, p.best, p.worst, i+7);
+  return PLAYERS.map(p => {
+    const stages = p.stages;
+    const total = stages.reduce((a, b) => a + b, 0);
     const cum = []; let s = 0;
-    stages.forEach(v=>{ s+=v; cum.push(s); });
-    return {...p, total, stages, cum};
+    stages.forEach(v => { s += v; cum.push(s); });
+    return { ...p, total, cum };
   });
 }

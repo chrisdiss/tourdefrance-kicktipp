@@ -1,0 +1,51 @@
+name: Build data.js aus xlsx
+
+# Baut data.js automatisch neu, sobald das Master-Dokument (oder das
+# Build-Skript) aktualisiert und nach main gepusht wird. Das erzeugte
+# data.js wird zurück ins Repo committet und damit auf GitHub Pages deployt.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tdf_tippspiel_master.xlsx"
+      - "build_data.py"
+      - ".github/workflows/build-data.yml"
+  workflow_dispatch: {}   # manuell auslösbar
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-data
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Abhängigkeiten installieren
+        run: pip install openpyxl
+
+      - name: data.js generieren
+        run: python build_data.py
+
+      - name: Änderungen committen (falls vorhanden)
+        run: |
+          if git diff --quiet -- data.js; then
+            echo "data.js unverändert — nichts zu committen."
+          else
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add data.js
+            git commit -m "chore: data.js aus tdf_tippspiel_master.xlsx neu gebaut"
+            git push
+          fi

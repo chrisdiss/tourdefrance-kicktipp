@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="utf-8">
+<title>Tour de France 2026 · Tipprunde (Le Tour)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Saira+Condensed:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; padding:0; background:#f3efe5; }
+  a { color:#a8850c; text-decoration:none; }
+  a:hover { color:#141414; text-decoration:underline; }
+  ::selection { background:#ffcb00; color:#1a1608; }
+  svg, img { max-width:100%; }
+  @media (max-width:640px){
+    .dc-root { padding-left:13px !important; padding-right:13px !important; }
+    .dc-header { padding:22px 20px !important; }
+    .dc-h1 { font-size:36px !important; }
+    .dc-h2 { font-size:24px !important; }
+    .row-item { flex-wrap:wrap !important; row-gap:8px !important; padding:12px 14px !important; }
+    .hide-sm { display:none !important; }
+    .modal-body { padding:18px 16px 30px 16px !important; }
+    .stat-grid { grid-template-columns:repeat(2,1fr) !important; }
+  }
+</style>
+</helmet>
+<div class="dc-root" style="min-height:100vh; background:#f3efe5; color:#141414; font-family:'Archivo',sans-serif; font-variant-numeric:tabular-nums; padding:0 20px 64px 20px;">
+  <div style="max-width:1080px; margin:0 auto;">
+    <header class="dc-header" style="margin-top:20px; background:#141414; color:#fffdf8; border-radius:20px; padding:30px 30px 26px 30px; display:flex; flex-wrap:wrap; align-items:flex-end; gap:24px; position:relative; overflow:hidden; box-shadow:0 12px 34px rgba(20,20,20,0.13);">
+      <div style="position:absolute; top:-40px; right:30px; width:34px; height:260px; background:#ffcb00; transform:skewX(-22deg);"></div>
+      <div style="position:absolute; top:-40px; right:84px; width:14px; height:260px; background:#ffcb00; opacity:0.45; transform:skewX(-22deg);"></div>
+      <div style="flex:1 1 380px; display:flex; flex-direction:column; gap:8px; position:relative; z-index:1;">
+        <span style="font-size:13px; letter-spacing:0.2em; text-transform:uppercase; color:#ffcb00; font-weight:700;">Tippen für Arme · Osti's Freunde</span>
+        <h1 style="margin:0; font-family:'Saira Condensed',sans-serif; font-weight:700; font-style:italic; text-transform:uppercase; font-size:clamp(44px,7vw,72px); line-height:0.95;" class="dc-h1">Tour de France <span style="color:#ffcb00;">2026</span></h1>
+      </div>
+      <div style="flex:0 1 300px; display:flex; flex-direction:column; gap:8px; padding-bottom:6px; position:relative; z-index:1;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px;">
+          <span style="font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:#9aa1a9; font-weight:600;">Etappe</span>
+          <span style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; font-size:30px;">{{ stageDone }} <span style="color:#9aa1a9; font-size:20px;">/ {{ stageTotal }}</span></span>
+        </div>
+        <div style="height:8px; background:#2c2c2c; border-radius:999px; overflow:hidden;">
+          <div style="height:100%; background:#ffcb00; border-radius:999px; width:{{ progressPct }};"></div>
+        </div>
+        <div style="font-size:13px; color:#9aa1a9;">In Führung: <strong style="color:#fffdf8;">{{ leaderName }}</strong> · {{ leaderPts }} Pkt</div>
+      </div>
+    </header>
+    <nav style="display:flex; flex-wrap:wrap; gap:8px; padding:14px 0; position:sticky; top:0; background:rgba(243,239,229,0.82); backdrop-filter:saturate(1.4) blur(10px); z-index:5;">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+        <button onClick="{{ t.onClick }}" style="font-family:'Archivo',sans-serif; font-size:14px; font-weight:600; letter-spacing:0.02em; padding:10px 18px; border:1px solid {{ t.border }}; background:{{ t.bg }}; color:{{ t.fg }}; cursor:pointer; border-radius:999px;" style-hover="border-color:#141414;">{{ t.label }}</button>
+      </sc-for>
+      <div style="margin-left:auto; align-self:center; font-size:13px; color:#7c7568;">Design: <strong>Le Tour</strong> · <a href="TdF-Tipprunde-Nachtfahrt.dc.html">Nachtfahrt</a></div>
+    </nav>
+    <sc-if value="{{ isGesamt }}" hint-placeholder-val="{{ true }}">
+      <section style="padding-top:20px;">
+        <div style="display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:14px;">
+          <h2 style="margin:0; font-family:'Saira Condensed',sans-serif; font-weight:700; font-style:italic; text-transform:uppercase; letter-spacing:0.01em; font-size:30px;" class="dc-h2">Gesamtstand</h2>
+          <span style="font-size:13px; color:#7c7568;">nach {{ stageDone }} von {{ stageTotal }} Etappen · Klick auf einen Namen für Details</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+            <div onClick="{{ r.onClick }}" class="row-item" style="display:flex; align-items:center; gap:14px; padding:14px 16px; border-radius:16px; cursor:pointer; transition:transform 0.16s ease, box-shadow 0.16s ease; background:{{ r.bg }}; box-shadow:0 1px 3px rgba(20,20,20,0.05);" style-hover="transform:translateY(-2px); box-shadow:0 10px 22px rgba(20,20,20,0.11);">
+              <span style="width:26px; text-align:right; font-family:'Saira Condensed',sans-serif; font-size:20px; color:{{ r.rankColor }};">{{ r.rank }}</span>
+              <span style="width:34px; font-size:12px; font-weight:600; color:{{ r.deltaColor }};">{{ r.deltaTxt }}</span>
+              <span style="width:34px; height:34px; border-radius:50%; background:{{ r.avatarBg }}; color:{{ r.avatarFg }}; border:1px solid #141414; display:inline-flex; align-items:center; justify-content:center; font-family:'Saira Condensed',sans-serif; font-size:16px; flex:none;">{{ r.initial }}</span>
+              <span style="flex:1 1 120px; min-width:110px; display:flex; flex-direction:column; gap:2px;">
+                <strong style="font-size:15px; font-weight:600;">{{ r.name }}</strong>
+                <span style="font-size:12px; color:#7c7568;">{{ r.tipTxt }}</span>
+              </span>
+              <span style="display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-end; flex:0 1 auto;">
+                <sc-for list="{{ r.badges }}" as="b" hint-placeholder-count="0">
+                  <span title="{{ b.title }}" style="font-size:11px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; padding:4px 10px; border-radius:999px; background:{{ b.bg }}; color:{{ b.fg }}; border:1px solid {{ b.border }};">{{ b.txt }}</span>
+                </sc-for>
+              </span>
+              <sc-if value="{{ showSparklines }}" hint-placeholder-val="{{ true }}">
+                <svg viewBox="0 0 100 28" class="hide-sm" style="width:96px; height:28px; flex:none;" preserveAspectRatio="none">
+                  <polyline points="{{ r.spark }}" fill="none" stroke="{{ r.sparkColor }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+                </svg>
+              </sc-if>
+              <span style="width:64px; text-align:right; font-size:17px; font-weight:700;">{{ r.total }}</span>
+              <span class="hide-sm" style="width:70px; text-align:right; font-size:12px; color:#7c7568;">Ø {{ r.avg }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:18px; background:#fffdf8; border:none; border-left:8px solid #ffcb00; padding:20px 22px; border-radius:16px; box-shadow:0 2px 12px rgba(20,20,20,0.06); display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+            <span style="font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#7c7568; font-weight:700;">Teamfunk · Trash Talk</span>
+            <span style="display:flex; gap:6px;">
+              <button onClick="{{ prevQ }}" style="font-family:'Archivo',sans-serif; font-size:13px; font-weight:700; border:1px solid #e7e1d2; border-radius:999px; background:#fffdf8; color:#141414; padding:6px 12px; cursor:pointer;" style-hover="border-color:#141414;">←</button>
+              <button onClick="{{ nextQ }}" style="font-family:'Archivo',sans-serif; font-size:13px; font-weight:700; border:1px solid #e7e1d2; border-radius:999px; background:#fffdf8; color:#141414; padding:6px 12px; cursor:pointer;" style-hover="border-color:#141414;">→</button>
+            </span>
+          </div>
+          <blockquote style="margin:0; font-family:'Saira Condensed',sans-serif; font-style:italic; font-size:clamp(20px,3vw,26px); line-height:1.25;">„{{ quoteTxt }}“</blockquote>
+          <div onClick="{{ quoteOpen }}" style="font-size:13px; font-weight:600; cursor:pointer; align-self:flex-start;" style-hover="color:#a8850c;">— {{ quoteBy }}, {{ quoteRank }}</div>
+        </div>
+        <p style="font-size:12px; color:#7c7568; margin:10px 2px;">Sparkline = Rangverlauf S01–S09 · Trikots: Gelb = Führung, Grün = höchster Tagesscore, Gepunktet = stärkster Kletterer im Ranking, Lanterne Rouge = letzter Platz (Ehrensache).</p>
+      </section>
+    </sc-if>
+    <sc-if value="{{ isEtappen }}" hint-placeholder-val="{{ false }}">
+      <section style="padding-top:20px; display:flex; flex-direction:column; gap:20px;">
+        <div style="display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <h2 style="margin:0; font-family:'Saira Condensed',sans-serif; font-weight:700; font-style:italic; text-transform:uppercase; letter-spacing:0.01em; font-size:30px;" class="dc-h2">Punkte pro Etappe</h2>
+          <span style="font-size:13px; color:#7c7568;">Etappe wählen</span>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          <sc-for list="{{ stagePills }}" as="s" hint-placeholder-count="9">
+            <button onClick="{{ s.onClick }}" style="font-family:'Archivo',sans-serif; font-size:13px; font-weight:600; padding:8px 16px; border-radius:999px; border:1px solid {{ s.border }}; background:{{ s.bg }}; color:{{ s.fg }}; cursor:pointer;" style-hover="border-color:#141414;">{{ s.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex; align-items:center; gap:14px; background:#ffcb00; border:none; padding:15px 19px; color:#1a1608; border-radius:14px;">
+          <span style="font-family:'Saira Condensed',sans-serif; font-size:22px;">Tagessieg</span>
+          <span style="font-size:15px; font-weight:600;">{{ stageWinner }}</span>
+          <span style="margin-left:auto; font-size:17px; font-weight:700;">{{ stageWinnerPts }} Pkt</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <sc-for list="{{ stageRows }}" as="r" hint-placeholder-count="8">
+            <div onClick="{{ r.onClick }}" class="row-item" style="display:flex; align-items:center; gap:14px; padding:12px 16px; border-radius:14px; background:#fffdf8; cursor:pointer; transition:transform 0.16s ease, box-shadow 0.16s ease; box-shadow:0 1px 3px rgba(20,20,20,0.05);" style-hover="transform:translateY(-2px); box-shadow:0 10px 22px rgba(20,20,20,0.11);">
+              <span style="width:26px; text-align:right; font-family:'Saira Condensed',sans-serif; font-size:18px; color:#7c7568;">{{ r.pos }}</span>
+              <span style="flex:0 0 130px; font-size:14px; font-weight:600;">{{ r.name }}</span>
+              <span style="flex:1 1 auto; height:14px; background:#f1ede2; overflow:hidden; border-radius:999px;"><span style="display:block; height:100%; background:{{ r.barColor }}; width:{{ r.barW }};"></span></span>
+              <span style="width:50px; text-align:right; font-size:15px; font-weight:700;">{{ r.pts }}</span>
+              <span class="hide-sm" style="width:110px; text-align:right; font-size:12px; color:#7c7568;">Gesamt: {{ r.cumRank }}.</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="background:#fffdf8; border:1px solid #e7e1d2; padding:20px; border-radius:16px; box-shadow:0 2px 12px rgba(20,20,20,0.05);">
+          <h3 style="margin:0 0 4px 0; font-family:'Saira Condensed',sans-serif; font-weight:700; font-style:italic; text-transform:uppercase; letter-spacing:0.01em; font-size:24px;">Punkteverlauf</h3>
+          <p style="margin:0 0 14px 0; font-size:13px; color:#7c7568;">Kumulierte Punkte über die Etappen · in der Legende Spieler an-/ausklicken</p>
+          <svg viewBox="0 0 680 300" style="width:100%; height:auto; display:block;">
+            <sc-for list="{{ gridLines }}" as="g" hint-placeholder-count="5">
+              <line x1="42" x2="668" y1="{{ g.y }}" y2="{{ g.y }}" stroke="#e7e1d2" stroke-width="1"></line>
+              <text x="36" y="{{ g.ty }}" fill="#7c7568" font-size="11" font-family="Archivo" text-anchor="end">{{ g.label }}</text>
+            </sc-for>
+            <text x="14" y="150" fill="#7c7568" font-size="10" font-family="Archivo" font-weight="700" text-anchor="middle" transform="rotate(-90 14 150)">PUNKTE</text>
+            <sc-for list="{{ chartX }}" as="x" hint-placeholder-count="9">
+              <line x1="{{ x.x }}" x2="{{ x.x }}" y1="14" y2="262" stroke="#f1ede2" stroke-width="1"></line>
+              <text x="{{ x.x }}" y="280" fill="#7c7568" font-size="11" font-family="Archivo" text-anchor="middle">{{ x.label }}</text>
+            </sc-for>
+            <sc-for list="{{ chartLines }}" as="l" hint-placeholder-count="5">
+              <polyline points="{{ l.pts }}" fill="none" stroke="{{ l.color }}" stroke-width="{{ l.w }}" opacity="{{ l.o }}" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            </sc-for>
+            <sc-for list="{{ chartDots }}" as="d" hint-placeholder-count="5">
+              <circle cx="{{ d.x }}" cy="{{ d.y }}" r="3.5" fill="{{ d.color }}" opacity="{{ d.o }}"></circle>
+            </sc-for>
+          </svg>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;">
+            <sc-for list="{{ chartLegend }}" as="c" hint-placeholder-count="17">
+              <button onClick="{{ c.onClick }}" style="display:inline-flex; align-items:center; gap:7px; font-family:'Archivo',sans-serif; font-size:12px; font-weight:600; padding:6px 12px; border-radius:999px; border:1px solid {{ c.border }}; background:{{ c.bg }}; color:{{ c.fg }}; cursor:pointer; transition:all 0.15s ease; opacity:{{ c.op }};" style-hover="border-color:#141414;"><span style="width:12px; height:12px; border-radius:50%; background:{{ c.swatch }}; flex:none;"></span>{{ c.name }} · {{ c.total }}</button>
+            </sc-for>
+          </div>
+          <div style="display:flex; gap:8px; margin-top:10px;">
+            <button onClick="{{ chartAll }}" style="font-family:'Archivo',sans-serif; font-size:12px; font-weight:600; padding:6px 14px; border-radius:999px; border:1px solid #e7e1d2; background:#fffdf8; color:#141414; cursor:pointer;" style-hover="border-color:#141414;">Alle anzeigen</button>
+            <button onClick="{{ chartTop5 }}" style="font-family:'Archivo',sans-serif; font-size:12px; font-weight:600; padding:6px 14px; border-radius:999px; border:1px solid #e7e1d2; background:#fffdf8; color:#141414; cursor:pointer;" style-hover="border-color:#141414;">Nur Top 5</button>
+          </div>
+        </div>
+        <p style="font-size:12px; color:#7c7568; margin:0 2px;">Hinweis: Die Etappenwerte sind aus Schnitt, bestem und schwächstem Tag rekonstruiert — Gesamtpunkte, Ränge und Fahrerpunkte entsprechen exakt dem Original. Echte Etappendaten lassen sich in <code>data.js</code> hinterlegen.</p>
+      </section>
+    </sc-if>
+    <sc-if value="{{ isFahrer }}" hint-placeholder-val="{{ false }}">
+      <section style="padding-top:20px; display:flex; flex-direction:column; gap:20px;">
+        <h2 style="margin:0; font-family:'Saira Condensed',sans-serif; font-weight:700; font-style:italic; text-transform:uppercase; letter-spacing:0.01em; font-size:30px;" class="dc-h2">Beste Picks</h2>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px;">
+          <sc-for list="{{ topPicks }}" as="p" hint-placeholder-count="3">
+            <div onClick="{{ p.onClick }}" style="background:#fffdf8; border:none; border-top:4px solid {{ p.accent }}; padding:16px 18px; cursor:pointer; display:flex; flex-direction:column; gap:6px; border-radius:16px; box-shadow:0 2px 12px rgba(20,20,20,0.05); transition:transform 0.18s ease, box-shadow 0.18s ease;" style-hover="transform:translateY(-3px); box-shadow:0 10px 24px rgba(20,20,20,0.13);">
+              <span style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#7c7568; font-weight:600;">{{ p.medal }}</span>
+              <strong style="font-family:'Saira Condensed',sans-serif; font-weight:700; font-style:italic; text-transform:uppercase; letter-spacing:0.01em; font-size:24px;">{{ p.name }}</strong>
+              <span style="font-size:13px; color:#7c7568;">{{ p.team }}</span>
+              <span style="font-size:20px; font-weight:700;">{{ p.pts }} Pkt</span>
+              <span style="font-size:12px; color:#7c7568;">{{ p.byTxt }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+          <input value="{{ search }}" onChange="{{ onSearch }}" placeholder="Fahrer oder Team suchen …" style="flex:1 1 220px; font-family:'Archivo',sans-serif; font-size:14px; padding:11px 18px; border:1px solid #e7e1d2; background:#fffdf8; color:#141414; outline:none; border-radius:999px;">
+          <button onClick="{{ sortByPts }}" style="font-family:'Archivo',sans-serif; font-size:13px; font-weight:600; padding:9px 16px; border-radius:999px; border:1px solid {{ sortPtsBorder }}; background:{{ sortPtsBg }}; color:{{ sortPtsFg }}; cursor:pointer;">Nach Punkten</button>
+          <button onClick="{{ sortByCount }}" style="font-family:'Archivo',sans-serif; font-size:13px; font-weight:600; padding:9px 16px; border-radius:999px; border:1px solid {{ sortCountBorder }}; background:{{ sortCountBg }}; color:{{ sortCountFg }}; cursor:pointer;">Am häufigsten getippt</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <sc-for list="{{ riderRows }}" as="r" hint-placeholder-count="10">
+            <div onClick="{{ r.onClick }}" class="row-item" style="display:flex; align-items:center; gap:14px; padding:12px 16px; border-radius:14px; background:#fffdf8; cursor:pointer; transition:transform 0.16s ease, box-shadow 0.16s ease; box-shadow:0 1px 3px rgba(20,20,20,0.05);" style-hover="transform:translateY(-2px); box-shadow:0 10px 22px rgba(20,20,20,0.11);">
+              <span style="flex:1 1 150px; min-width:130px; display:flex; flex-direction:column; gap:2px;">
+                <strong style="font-size:14px; font-weight:600;">{{ r.name }}</strong>
+                <span style="font-size:12px; color:#7c7568;">{{ r.team }}</span>
+              </span>
+              <span style="font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; padding:3px 10px; border-radius:999px; background:#f1ede2; color:#7c7568; flex:none;">{{ r.spec }}</span>
+              <span style="flex:1 1 auto; max-width:220px; height:12px; background:#f1ede2; overflow:hidden; border-radius:999px;"><span style="display:block; height:100%; background:#ffcb00; width:{{ r.barW }};"></span></span>
+              <span style="width:44px; text-align:right; font-size:15px; font-weight:700;">{{ r.pts }}</span>
+              <span class="hide-sm" style="width:80px; text-align:right; font-size:12px; color:#7c7568;">{{ r.byTxt }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+    <sc-if value="{{ isTeams }}" hint-placeholder-val="{{ false }}">
+      <section style="padding-top:20px; display:flex; flex-direction:column; gap:20px;">
+        <div style="display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <h2 style="margin:0; font-family:'Saira Condensed',sans-serif; font-weight:700; font-style:italic; text-transform:uppercase; letter-spacing:0.01em; font-size:30px;" class="dc-h2">Teams & Team-Tipps</h2>
+          <span style="font-size:13px; color:#7c7568;">Fahrerpunkte kumuliert · Teamwertungs-Tipps der Spieler</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px;">
+          <sc-for list="{{ teamCards }}" as="t" hint-placeholder-count="6">
+            <div style="background:#fffdf8; border:1px solid #e7e1d2; padding:16px 18px; border-radius:16px; box-shadow:0 2px 12px rgba(20,20,20,0.05); display:flex; flex-direction:column; gap:10px;">
+              <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+                <strong style="font-size:15px; font-weight:700;">{{ t.name }}</strong>
+                <span style="font-size:17px; font-weight:700; flex:none;">{{ t.total }} Pkt</span>
+              </div>
+              <div style="height:8px; background:#f1ede2; overflow:hidden; border-radius:999px;"><span style="display:block; height:100%; background:#ffcb00; width:{{ t.barW }};"></span></div>
+              <div style="display:flex; flex-direction:column; gap:4px;">
+                <sc-for list="{{ t.riders }}" as="r" hint-placeholder-count="3">
+                  <div onClick="{{ r.onClick }}" style="display:flex; justify-content:space-between; font-size:13px; cursor:pointer; padding:2px 0;" style-hover="color:#a8850c;">
+                    <span>{{ r.name }}</span><span style="font-weight:600;">{{ r.pts }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="border-top:1px solid #e7e1d2; padding-top:8px; font-size:12px; color:#7c7568;">Team-Tipp ({{ t.tipPts }} Pkt): <strong style="color:#141414;">{{ t.tipBy }}</strong></div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+    <sc-if value="{{ isDuell }}" hint-placeholder-val="{{ false }}">
+      <section style="padding-top:20px; display:flex; flex-direction:column; gap:20px;">
+        <h2 style="margin:0; font-family:'Saira Condensed',sans-serif; font-weight:700; font-style:italic; text-transform:uppercase; letter-spacing:0.01em; font-size:30px;" class="dc-h2">Duell</h2>
+        <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+          <select value="{{ duellA }}" onChange="{{ onSelA }}" style="font-family:'Archivo',sans-serif; font-size:15px; font-weight:600; padding:10px 16px; border-radius:12px; border:1px solid #e7e1d2; background:#fffdf8; color:#141414;">
+            <sc-for list="{{ playerNames }}" as="p" hint-placeholder-count="3"><option value="{{ p }}">{{ p }}</option></sc-for>
+          </select>
+          <span style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-size:24px; color:#a8850c;">vs</span>
+          <select value="{{ duellB }}" onChange="{{ onSelB }}" style="font-family:'Archivo',sans-serif; font-size:15px; font-weight:600; padding:10px 16px; border-radius:12px; border:1px solid #e7e1d2; background:#fffdf8; color:#141414;">
+            <sc-for list="{{ playerNames }}" as="p" hint-placeholder-count="3"><option value="{{ p }}">{{ p }}</option></sc-for>
+          </select>
+        </div>
+        <div style="background:#fffdf8; border:1px solid #e7e1d2;">
+          <sc-for list="{{ duellStats }}" as="s" hint-placeholder-count="6">
+            <div style="display:grid; grid-template-columns:1fr 160px 1fr; gap:10px; padding:10px 16px; border-bottom:1px solid #e7e1d2; align-items:center;">
+              <span style="text-align:right; font-size:15px; font-weight:{{ s.aW }}; color:{{ s.aC }};">{{ s.a }}</span>
+              <span style="text-align:center; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#7c7568; font-weight:600;">{{ s.label }}</span>
+              <span style="font-size:15px; font-weight:{{ s.bW }}; color:{{ s.bC }};">{{ s.b }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px;">
+          <div style="background:#fffdf8; border:1px solid #e7e1d2; padding:16px 18px; border-radius:16px; box-shadow:0 2px 12px rgba(20,20,20,0.05);">
+            <h3 style="margin:0 0 10px 0; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:#7c7568;">Nur {{ duellA }}</h3>
+            <sc-for list="{{ duellOnlyA }}" as="r" hint-placeholder-count="4">
+              <div onClick="{{ r.onClick }}" style="display:flex; justify-content:space-between; font-size:13px; padding:3px 0; cursor:pointer;" style-hover="color:#a8850c;"><span>{{ r.name }}</span><span style="font-weight:600;">{{ r.pts }}</span></div>
+            </sc-for>
+          </div>
+          <div style="background:#ffcb00; border:none; padding:17px 19px; color:#1a1608; border-radius:16px; box-shadow:0 2px 12px rgba(20,20,20,0.08);">
+            <h3 style="margin:0 0 10px 0; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:#1a1608;">Gemeinsame Picks</h3>
+            <sc-for list="{{ duellCommon }}" as="r" hint-placeholder-count="4">
+              <div onClick="{{ r.onClick }}" style="display:flex; justify-content:space-between; font-size:13px; padding:3px 0; cursor:pointer;"><span>{{ r.name }}</span><span style="font-weight:600;">{{ r.pts }}</span></div>
+            </sc-for>
+          </div>
+          <div style="background:#fffdf8; border:1px solid #e7e1d2; padding:16px 18px; border-radius:16px; box-shadow:0 2px 12px rgba(20,20,20,0.05);">
+            <h3 style="margin:0 0 10px 0; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:#7c7568;">Nur {{ duellB }}</h3>
+            <sc-for list="{{ duellOnlyB }}" as="r" hint-placeholder-count="4">
+              <div onClick="{{ r.onClick }}" style="display:flex; justify-content:space-between; font-size:13px; padding:3px 0; cursor:pointer;" style-hover="color:#a8850c;"><span>{{ r.name }}</span><span style="font-weight:600;">{{ r.pts }}</span></div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+    <footer style="margin-top:48px; padding-top:16px; border-top:1px solid #e7e1d2; font-size:12px; color:#7c7568; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+      <span>Tour de France 2026 · Tipprunde · Stand nach Etappe {{ stageDone }}</span>
+      <span>Allez, allez!</span>
+    </footer>
+  </div>
+  <sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeSel }}" style="position:fixed; inset:0; background:rgba(10,10,10,0.5); backdrop-filter:blur(3px); z-index:50; display:flex; align-items:center; justify-content:center; padding:24px; box-sizing:border-box;">
+      <aside onClick="{{ stopSel }}" style="width:min(560px,100%); max-height:90vh; background:#fffdf8; border-radius:20px; box-shadow:0 24px 60px rgba(0,0,0,0.28); overflow-y:auto; padding:0; box-sizing:border-box; display:flex; flex-direction:column;">
+        <div style="position:sticky; top:0; z-index:2; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 20px; background:#141414; color:#fffdf8; border-radius:20px 20px 0 0;">
+          <button onClick="{{ closeSel }}" title="Schließen" style="font-family:'Archivo',sans-serif; font-size:18px; font-weight:700; border:1px solid #2c2c2c; border-radius:999px; background:#1e1e1e; color:#fffdf8; width:38px; height:38px; cursor:pointer; line-height:1;" style-hover="background:#ffcb00; color:#1a1608; border-color:#ffcb00;">✕</button>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <sc-if value="{{ selCanNav }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ selPrev }}" title="Voriger" style="font-family:'Archivo',sans-serif; font-size:16px; font-weight:700; border:1px solid #2c2c2c; border-radius:999px; background:#1e1e1e; color:#fffdf8; width:38px; height:38px; cursor:pointer; line-height:1;" style-hover="background:#ffcb00; color:#1a1608; border-color:#ffcb00;">‹</button>
+              <button onClick="{{ selNext }}" title="Nächster" style="font-family:'Archivo',sans-serif; font-size:16px; font-weight:700; border:1px solid #2c2c2c; border-radius:999px; background:#1e1e1e; color:#fffdf8; width:38px; height:38px; cursor:pointer; line-height:1;" style-hover="background:#ffcb00; color:#1a1608; border-color:#ffcb00;">›</button>
+            </sc-if>
+          </div>
+        
+        </div>
+        <div class="modal-body" style="padding:22px 26px 40px 26px; display:flex; flex-direction:column; gap:18px;">
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <span style="font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#7c7568; font-weight:600;">{{ selKind }}</span>
+          <h2 style="margin:0; font-family:'Saira Condensed',sans-serif; font-weight:700; font-style:italic; text-transform:uppercase; letter-spacing:0.01em; font-size:32px; line-height:1.05;">{{ selTitle }}</h2>
+          <span style="font-size:13px; color:#7c7568;">{{ selSub }}</span>
+        </div>
+        <div class="stat-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">
+          <sc-for list="{{ selStats }}" as="s" hint-placeholder-count="3">
+            <div style="border:1px solid #e7e1d2; border-radius:12px; padding:10px 12px; display:flex; flex-direction:column; gap:3px;">
+              <span style="font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#7c7568; font-weight:600;">{{ s.label }}</span>
+              <span style="font-size:17px; font-weight:700;">{{ s.value }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ selBadgesShow }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; flex-wrap:wrap; gap:6px;">
+            <sc-for list="{{ selBadges }}" as="b" hint-placeholder-count="0">
+              <span title="{{ b.title }}" style="font-size:11px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; padding:4px 10px; border-radius:999px; background:{{ b.bg }}; color:{{ b.fg }}; border:1px solid {{ b.border }};">{{ b.txt }}</span>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ selIsPlayer }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid #e7e1d2; padding:14px;">
+            <h3 style="margin:0 0 8px 0; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:#7c7568;">Rangverlauf</h3>
+            <svg viewBox="0 0 400 120" style="width:100%; height:auto; display:block;">
+              <line x1="0" x2="400" y1="12" y2="12" stroke="#e7e1d2" stroke-width="1"></line>
+              <line x1="0" x2="400" y1="108" y2="108" stroke="#e7e1d2" stroke-width="1"></line>
+              <text x="0" y="9" fill="#7c7568" font-size="9" font-family="Archivo">Rang 1</text>
+              <text x="0" y="119" fill="#7c7568" font-size="9" font-family="Archivo">Rang 17</text>
+              <polyline points="{{ selSpark }}" fill="none" stroke="#a8850c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            </svg>
+            <div style="display:flex; justify-content:space-between; margin-top:6px;">
+              <sc-for list="{{ selRankRow }}" as="r" hint-placeholder-count="9">
+                <span style="font-size:10px; color:#7c7568; text-align:center; display:flex; flex-direction:column; gap:1px;"><span>{{ r.stage }}</span><strong style="color:#141414; font-size:12px;">{{ r.rank }}</strong></span>
+              </sc-for>
+            </div>
+          </div>
+          <div>
+            <h3 style="margin:0 0 8px 0; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:#7c7568;">Fahrer-Punkte</h3>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <sc-for list="{{ selRiders }}" as="r" hint-placeholder-count="6">
+                <div onClick="{{ r.onClick }}" style="display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:12px; background:#f1ede2; cursor:pointer; transition:background 0.15s ease;" style-hover="background:#e7e1d2;">
+                  <span style="flex:1; font-size:13px; font-weight:600;">{{ r.name }}</span>
+                  <span style="font-size:11px; color:#7c7568;">{{ r.team }}</span>
+                  <span style="width:36px; text-align:right; font-size:14px; font-weight:700;">{{ r.pts }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ selIsRider }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <h3 style="margin:0 0 8px 0; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:#7c7568;">Getippt von {{ selByCount }}</h3>
+            <div style="display:flex; flex-wrap:wrap; gap:6px;">
+              <sc-for list="{{ selBy }}" as="p" hint-placeholder-count="4">
+                <button onClick="{{ p.onClick }}" style="font-family:'Archivo',sans-serif; font-size:13px; font-weight:600; padding:7px 14px; border-radius:999px; border:1px solid #e7e1d2; background:#fffdf8; color:#141414; cursor:pointer;" style-hover="border-color:#141414; background:#ffcb00; color:#1a1608;">{{ p.name }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+        </div>
+      </aside>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showSparklines&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Ansicht&quot;},&quot;showBadges&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Ansicht&quot;},&quot;defaultTab&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;gesamt&quot;,&quot;options&quot;:[&quot;gesamt&quot;,&quot;etappen&quot;,&quot;fahrer&quot;,&quot;teams&quot;,&quot;duell&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Ansicht&quot;}}">
+class Component extends DCLogic {
+  state = { ready:false, tab:'gesamt', stage:9, sel:null, search:'', sort:'p', duellA:'Richard NB', duellB:'Conni K', qi:0, chartHidden:{} };
+  componentDidMount(){
+    import('./data.js?v=4').then(m => {
+      this.D = m;
+      this.players = m.buildPlayers();
+      const t = this.props.defaultTab;
+      this.setState({ ready:true, tab: t || 'gesamt' });
+      this.qTimer = setInterval(()=>{
+        if (this.D.QUOTES && this.D.QUOTES.length) this.setState(s=>({ qi:(s.qi+1)%this.D.QUOTES.length }));
+      }, 9000);
+    });
+  }
+  componentWillUnmount(){ if (this.qTimer) clearInterval(this.qTimer); }
+  fmt1(v){ return (Math.round(v*10)/10).toString().replace('.', ','); }
+  badgesFor(p, board){
+    const out = [];
+    const yellow = {bg:'#ffcb00', fg:'#1a1608', border:'#141414'};
+    const green = {bg:'#2f8a4e', fg:'#fffdf8', border:'#2f8a4e'};
+    const polka = {bg:'#fffdf8', fg:'#d63c2f', border:'#d63c2f'};
+    const gray = {bg:'#141414', fg:'#fffdf8', border:'#141414'};
+    if (p.lbRank === 1) out.push({txt:'Maillot Jaune', title:'Führt die Gesamtwertung an', ...yellow});
+    const maxBest = Math.max(...board.map(x=>x.best[1]));
+    if (p.best[1] === maxBest) out.push({txt:'Tageshoch '+p.best[1], title:'Höchster Tagesscore der Runde (S0'+p.best[0]+')', ...green});
+    const climbs = board.map(x => ({n:x.n, c:x.ranks[0]-x.ranks[8], r:x.lbRank}));
+    const bestClimb = Math.max(...climbs.filter(c=>c.r!==1).map(c=>c.c));
+    const myClimb = p.ranks[0]-p.ranks[8];
+    if (p.lbRank !== 1 && myClimb === bestClimb && bestClimb > 0) out.push({txt:'Kletterer +'+myClimb, title:'Stärkster Aufstieg im Ranking seit S01', ...polka});
+    if (p.lbRank === board.length) out.push({txt:'Lanterne Rouge', title:'Letzter Platz — Ehrensache!', ...gray});
+    const gap = p.best[1]-p.worst[1];
+    const minGap = Math.min(...board.map(x=>x.best[1]-x.worst[1]));
+    if (gap === minGap) out.push({txt:'Metronom', title:'Konstanteste Leistung: nur '+gap+' Pkt zwischen bestem und schwächstem Tag', bg:'#fffdf8', fg:'#3457c9', border:'#3457c9'});
+    const solo = this.D.RIDERS.filter(r=>r.by.length===1 && r.p>0).sort((a,b)=>b.p-a.p)[0];
+    if (solo && solo.by[0] === p.n) out.push({txt:'Geheimtipp', title:solo.n+' ('+solo.p+' Pkt) — diesen Pick hat sonst niemand', bg:'#fffdf8', fg:'#8a5ac9', border:'#8a5ac9'});
+    if (p.ranks[0] === 1) out.push({txt:'Frühstarter', title:'Rang 1 nach Etappe 1', bg:'#f1ede2', fg:'#141414', border:'#141414'});
+    const maxFall = Math.max(...board.map(x=>x.ranks[8]-x.ranks[0]));
+    const myFall = p.ranks[8]-p.ranks[0];
+    if (maxFall > 0 && myFall === maxFall) out.push({txt:'Gegenwind −'+myFall, title:'Größter Rückfall seit S01 — Zeit für die Aufholjagd!', bg:'#fffdf8', fg:'#7c7568', border:'#7c7568'});
+    const pop = x => { const picks = this.D.RIDERS.filter(r=>r.by.includes(x.n)); return picks.length ? picks.reduce((a,r)=>a+r.by.length,0)/picks.length : 99; };
+    const minPop = Math.min(...board.map(pop));
+    if (pop(p) === minPop) out.push({txt:'Ausreißer', title:'Mutigste Auswahl: setzt am stärksten auf Fahrer, die sonst kaum jemand tippt', bg:'#fffdf8', fg:'#c98f4b', border:'#c98f4b'});
+    return out;
+  }
+  spark(ranks, w, h, pad){
+    const n = ranks.length;
+    return ranks.map((r,i)=>{
+      const x = pad + i*((w-2*pad)/(n-1));
+      const y = pad + (r-1)/16*(h-2*pad);
+      return x.toFixed(1)+','+y.toFixed(1);
+    }).join(' ');
+  }
+  openPlayer(n){ this.setState({sel:{type:'player', n}}); }
+  openRider(n){ this.setState({sel:{type:'rider', n}}); }
+  renderVals(){
+    const S = this.state;
+    if (!S.ready || !this.players) return { ready:false, tabs:[], rows:[], stagePills:[], stageRows:[], gridLines:[], chartLines:[], chartX:[], chartLegend:[], chartDots:[], topPicks:[], riderRows:[], teamCards:[], playerNames:[], duellStats:[], duellOnlyA:[], duellOnlyB:[], duellCommon:[], drawerOpen:false, quoteTxt:'', quoteBy:'', quoteRank:'', isGesamt:true, isEtappen:false, isFahrer:false, isTeams:false, isDuell:false, showSparklines:true, stageDone:9, stageTotal:21, progressPct:'42.9%', leaderName:'…', leaderPts:'…', search:'', selBadges:[], selStats:[], selRiders:[], selBy:[], selRankRow:[] };
+    const D = this.D, RD = D.RIDERS;
+    const showSparklines = this.props.showSparklines ?? true;
+    const showBadges = this.props.showBadges ?? true;
+    const board = [...this.players].sort((a,b)=>b.total-a.total || a.ranks[8]-b.ranks[8]);
+    board.forEach((p,i)=>{ p.lbRank = i+1; });
+    const byName = {}; board.forEach(p=>{ byName[p.n]=p; });
+    const riderByName = {}; RD.forEach(r=>{ riderByName[r.n]=r; });
+    const leader = board[0];
+    const tabDefs = [['gesamt','Gesamtstand'],['etappen','Etappen'],['fahrer','Fahrer'],['teams','Teams'],['duell','Duell']];
+    const tabs = tabDefs.map(([k,label])=>({ key:k, label, active:S.tab===k,
+      bg: S.tab===k ? '#ffcb00' : '#fffdf8', fg: S.tab===k ? '#1a1608' : '#141414', border: S.tab===k ? '#ffcb00' : '#e7e1d2',
+      onClick: ()=>this.setState({tab:k}) }));
+    const rows = board.map(p=>{
+      const delta = p.ranks[7]-p.ranks[8];
+      return {
+        rank: p.lbRank, name: p.n, initial: p.n.slice(0,1),
+        total: p.total, avg: this.fmt1(p.avg),
+        deltaTxt: delta>0 ? '▲'+delta : delta<0 ? '▼'+(-delta) : '·',
+        deltaColor: delta>0 ? '#2f8a4e' : delta<0 ? '#d63c2f' : '#7c7568',
+        badges: showBadges ? this.badgesFor(p, board) : [],
+        spark: this.spark(p.ranks, 100, 28, 4),
+        sparkColor: p.lbRank===1 ? '#a8850c' : '#b8b09c',
+        bg: p.lbRank===1 ? '#fdf6da' : '#fffdf8',
+        rankColor: p.lbRank<=3 ? '#141414' : '#7c7568',
+        avatarBg: p.lbRank===1 ? '#ffcb00' : '#f1ede2',
+        avatarFg: p.lbRank===1 ? '#1a1608' : '#141414',
+        tipTxt: p.tip ? 'Team-Tipp: '+p.tip : 'kein Team-Tipp',
+        onClick: ()=>this.openPlayer(p.n),
+      };
+    });
+    // Etappen
+    const stagePills = Array.from({length:D.STAGES_DONE}, (_,i)=>({
+      label:'S0'+(i+1), active:S.stage===i+1,
+      bg: S.stage===i+1 ? '#ffcb00' : '#fffdf8', fg: S.stage===i+1 ? '#1a1608' : '#141414', border: S.stage===i+1 ? '#ffcb00' : '#e7e1d2',
+      onClick: ()=>this.setState({stage:i+1}) }));
+    const si = S.stage-1;
+    const stSorted = [...board].sort((a,b)=>b.stages[si]-a.stages[si]);
+    const maxSt = Math.max(1, stSorted[0].stages[si]);
+    const stageRows = stSorted.map((p,i)=>({
+      pos:i+1, name:p.n, pts:p.stages[si], cumRank:p.ranks[si],
+      barW: Math.round(p.stages[si]/maxSt*100)+'%',
+      barColor: i===0 ? '#ffcb00' : '#ddd6c6',
+      onClick: ()=>this.openPlayer(p.n) }));
+    const stageWinner = stSorted[0].n + ' · Etappe S0' + S.stage;
+    const stageWinnerPts = stSorted[0].stages[si];
+    // Chart — kumulierter Punkteverlauf, jeder Spieler eigene Farbe, per Legende toggelbar
+    const maxCum = Math.max(...board.map(p=>p.total));
+    const PX0 = 42, PX1 = 668, PY0 = 14, PY1 = 262;
+    const cx = i => PX0 + i*((PX1-PX0)/8);
+    const cy = v => PY1 - v/maxCum*(PY1-PY0);
+    const palette = ['#d63c2f','#2f8a4e','#3457c9','#a8850c','#8a5ac9','#c98f4b','#0f9b9b','#c9407e','#5a7d1f','#b5462f','#3f6fb0','#7a5cc9','#2f8f6a','#b07a1f','#c44a9a','#4f8a2f','#9a4f3f'];
+    const hidden = S.chartHidden || {};
+    const lines = [], dots = [];
+    board.forEach(p=>{ if (hidden[p.n]) lines.push({ pts: p.cum.map((v,i)=>cx(i).toFixed(1)+','+cy(v).toFixed(1)).join(' '), color:'#c9c2b2', w:1.2, o:0.4 }); });
+    board.forEach((p,idx)=>{
+      if (hidden[p.n]) return;
+      const col = palette[idx % palette.length];
+      lines.push({ pts: p.cum.map((v,i)=>cx(i).toFixed(1)+','+cy(v).toFixed(1)).join(' '), color:col, w: p.lbRank<=3?3:2, o:1 });
+      dots.push({ x:cx(8).toFixed(1), y:cy(p.total).toFixed(1), color:col, o:1 });
+    });
+    const chartLines = lines, chartDots = dots;
+    const step = maxCum > 400 ? 100 : 50;
+    const yTicks = []; for (let v=0; v<=maxCum; v+=step) yTicks.push(v);
+    const gridLines = yTicks.map(v=>({ y:cy(v).toFixed(1), ty:(cy(v)+4).toFixed(1), label:''+v }));
+    const chartX = Array.from({length:9},(_,i)=>({ x:cx(i).toFixed(1), label:'S0'+(i+1) }));
+    const chartLegend = board.map((p,idx)=>{
+      const col = palette[idx % palette.length];
+      const off = !!hidden[p.n];
+      return { name:p.n, total:p.total, swatch: off?'#c9c2b2':col,
+        bg: off?'#f1ede2':'#fffdf8', fg: off?'#7c7568':'#141414', border: off?'#e7e1d2':col, op: off?0.6:1,
+        onClick: ()=>this.setState(st=>{ const h={...st.chartHidden}; if(h[p.n])delete h[p.n]; else h[p.n]=true; return {chartHidden:h}; }) };
+    });
+    // Fahrer
+    const picksAccents = ['#ffcb00','#b8b09c','#c98f4b'];
+    const medals = ['Bester Pick','Zweitbester Pick','Drittbester Pick'];
+    const ranked = [...RD].sort((a,b)=>b.p-a.p);
+    const topPicks = ranked.slice(0,3).map((r,i)=>({
+      name:r.n, team:r.t, pts:r.p, accent:picksAccents[i], medal:medals[i],
+      byTxt: r.by.length ? 'Getippt von '+r.by.length+(r.by.length===1?' Spieler:in':' Spieler:innen') : 'Von niemandem getippt',
+      onClick: ()=>this.openRider(r.n) }));
+    const q = S.search.trim().toLowerCase();
+    let list = RD.filter(r=>!q || r.n.toLowerCase().includes(q) || r.t.toLowerCase().includes(q));
+    list = list.sort(S.sort==='p' ? (a,b)=>b.p-a.p || b.by.length-a.by.length : (a,b)=>b.by.length-a.by.length || b.p-a.p);
+    const maxRp = Math.max(1, ...RD.map(r=>r.p));
+    const riderRows = list.slice(0,40).map(r=>({
+      name:r.n, team:r.t, spec:r.s, pts:r.p,
+      barW: Math.round(r.p/maxRp*100)+'%',
+      byTxt: r.by.length+'× getippt',
+      onClick: ()=>this.openRider(r.n) }));
+    // Teams
+    const teamMap = {};
+    RD.forEach(r=>{ (teamMap[r.t] = teamMap[r.t] || []).push(r); });
+    const maxTeam = Math.max(...Object.values(teamMap).map(rs=>rs.reduce((a,r)=>a+r.p,0)));
+    const teamCards = Object.entries(teamMap).map(([name,rs])=>{
+      const total = rs.reduce((a,r)=>a+r.p,0);
+      const tippers = board.filter(p=>p.tip===name).map(p=>p.n);
+      return { name, total,
+        barW: Math.round(total/Math.max(1,maxTeam)*100)+'%',
+        riders: rs.sort((a,b)=>b.p-a.p).slice(0,4).map(r=>({name:r.n, pts:r.p, onClick:()=>this.openRider(r.n)})),
+        tipPts: D.TEAM_TIP_PTS[name] || 0,
+        tipBy: tippers.length ? tippers.join(', ') : 'niemand' };
+    }).sort((a,b)=>b.total-a.total);
+    // Duell
+    const playerNames = board.map(p=>p.n);
+    const A = byName[S.duellA] || board[0], B = byName[S.duellB] || board[1];
+    const win = (a,b)=>a>b;
+    const mk = (label,a,b,fmt,higherWins=true)=>{
+      const aBetter = higherWins ? a>b : a<b, bBetter = higherWins ? b>a : b<a;
+      return { label, a:fmt(a), b:fmt(b), aW:aBetter?700:400, bW:bBetter?700:400, aC:aBetter?'#141414':'#7c7568', bC:bBetter?'#141414':'#7c7568' };
+    };
+    const duellStats = [
+      mk('Rang', A.lbRank, B.lbRank, v=>v+'.', false),
+      mk('Punkte gesamt', A.total, B.total, v=>v+''),
+      mk('Schnitt / Etappe', A.avg, B.avg, v=>this.fmt1(v)),
+      mk('Bester Tag', A.best[1], B.best[1], v=>v+' Pkt'),
+      mk('Schwächster Tag', A.worst[1], B.worst[1], v=>v+' Pkt'),
+      mk('Team-Tipp-Punkte', A.tipPts, B.tipPts, v=>v+''),
+    ];
+    const picksOf = p => RD.filter(r=>r.by.includes(p.n));
+    const pa = picksOf(A), pb = picksOf(B);
+    const pbSet = new Set(pb.map(r=>r.n)), paSet = new Set(pa.map(r=>r.n));
+    const mkPick = r => ({name:r.n, pts:r.p, onClick:()=>this.openRider(r.n)});
+    const srt = (a,b)=>b.p-a.p;
+    const duellCommon = pa.filter(r=>pbSet.has(r.n)).sort(srt).map(mkPick);
+    const duellOnlyA = pa.filter(r=>!pbSet.has(r.n)).sort(srt).slice(0,10).map(mkPick);
+    const duellOnlyB = pb.filter(r=>!paSet.has(r.n)).sort(srt).slice(0,10).map(mkPick);
+    // Drawer
+    let drawer = { drawerOpen:false, selKind:'', selTitle:'', selSub:'', selStats:[], selBadges:[], selBadgesShow:false, selIsPlayer:false, selIsRider:false, selSpark:'', selRankRow:[], selRiders:[], selBy:[], selByCount:'' };
+    if (S.sel && S.sel.type==='player' && byName[S.sel.n]){
+      const p = byName[S.sel.n];
+      drawer = { drawerOpen:true, selKind:'Spieler:in · Rang '+p.lbRank, selTitle:p.n,
+        selSub: p.tip ? 'Team-Tipp: '+p.tip+' ('+p.tipPts+' Pkt)' : 'Kein Team-Tipp hinterlegt',
+        selStats: [
+          {label:'Punkte', value:p.total},
+          {label:'Ø / Etappe', value:this.fmt1(p.avg)},
+          {label:'Rang', value:p.lbRank+'.'},
+          {label:'Bester Tag', value:'S0'+p.best[0]+' · '+p.best[1]},
+          {label:'Schwächster', value:'S0'+p.worst[0]+' · '+p.worst[1]},
+          {label:'Picks', value:RD.filter(r=>r.by.includes(p.n)).length},
+        ],
+        selBadges: this.badgesFor(p, board), selBadgesShow: this.badgesFor(p, board).length>0,
+        selIsPlayer:true, selIsRider:false,
+        selSpark: this.spark(p.ranks, 400, 120, 12),
+        selRankRow: p.ranks.map((r,i)=>({stage:'S0'+(i+1), rank:r})),
+        selRiders: RD.filter(r=>r.by.includes(p.n)).sort((a,b)=>b.p-a.p).map(r=>({name:r.n, team:r.t, pts:r.p, onClick:()=>this.openRider(r.n)})),
+        selBy:[], selByCount:'' };
+    } else if (S.sel && S.sel.type==='rider' && riderByName[S.sel.n]){
+      const r = riderByName[S.sel.n];
+      drawer = { drawerOpen:true, selKind:'Fahrer · Nr. '+r.b, selTitle:r.n, selSub:r.t+' · '+r.s+' · '+r.a+' Jahre',
+        selStats: [
+          {label:'Punkte', value:r.p},
+          {label:'Ø / Etappe', value:this.fmt1(r.p/9)},
+          {label:'Bester Tag', value: r.bd ? 'S0'+r.bd[0]+' · '+r.bd[1] : '—'},
+        ],
+        selBadges:[], selBadgesShow:false, selIsPlayer:false, selIsRider:true,
+        selSpark:'', selRankRow:[], selRiders:[],
+        selBy: r.by.map(n=>({name:n, onClick:()=>this.openPlayer(n)})),
+        selByCount: r.by.length ? r.by.length+' Spieler:innen' : 'niemandem getippt' };
+    }
+    return {
+      ready:true, showSparklines,
+      stageDone:D.STAGES_DONE, stageTotal:D.STAGES_TOTAL,
+      progressPct: Math.round(D.STAGES_DONE/D.STAGES_TOTAL*1000)/10 + '%',
+      leaderName: leader.n, leaderPts: leader.total,
+      tabs, isGesamt:S.tab==='gesamt', isEtappen:S.tab==='etappen', isFahrer:S.tab==='fahrer', isTeams:S.tab==='teams', isDuell:S.tab==='duell',
+      rows, stagePills, stageRows, stageWinner, stageWinnerPts,
+      gridLines, chartLines:lines, chartX, chartLegend, chartDots,
+      chartAll: ()=>this.setState({chartHidden:{}}),
+      chartTop5: ()=>this.setState({chartHidden: Object.fromEntries(board.slice(5).map(p=>[p.n,true]))}),
+      topPicks, riderRows, search:S.search,
+      onSearch: e=>this.setState({search:e.target.value}),
+      sortByPts: ()=>this.setState({sort:'p'}), sortByCount: ()=>this.setState({sort:'by'}),
+      sortPtsBg: S.sort==='p'?'#ffcb00':'#fffdf8', sortPtsBorder: S.sort==='p'?'#141414':'#e7e1d2', sortPtsFg: S.sort==='p'?'#1a1608':'#141414',
+      sortCountBg: S.sort==='by'?'#ffcb00':'#fffdf8', sortCountBorder: S.sort==='by'?'#141414':'#e7e1d2', sortCountFg: S.sort==='by'?'#1a1608':'#141414',
+      teamCards, playerNames,
+      duellA:S.duellA, duellB:S.duellB,
+      onSelA: e=>this.setState({duellA:e.target.value}), onSelB: e=>this.setState({duellB:e.target.value}),
+      duellStats, duellCommon, duellOnlyA, duellOnlyB,
+      quoteTxt: (D.QUOTES && D.QUOTES[S.qi % D.QUOTES.length] || {txt:''}).txt,
+      quoteBy: (D.QUOTES && D.QUOTES[S.qi % D.QUOTES.length] || {by:''}).by,
+      quoteRank: (byName[(D.QUOTES && D.QUOTES[S.qi % D.QUOTES.length] || {}).by] || {lbRank:'—'}).lbRank + '. der Gesamtwertung',
+      quoteOpen: ()=>{ const q = D.QUOTES[S.qi % D.QUOTES.length]; if (q && byName[q.by]) this.openPlayer(q.by); },
+      selCanNav: !!(S.sel && (S.sel.type==='player' || S.sel.type==='rider')),
+      selPrev: ()=>{
+        if (!S.sel) return;
+        if (S.sel.type==='player'){ const arr=board.map(p=>p.n), i=arr.indexOf(S.sel.n); this.openPlayer(arr[(i-1+arr.length)%arr.length]); }
+        else if (S.sel.type==='rider'){ const arr=ranked.map(r=>r.n), i=arr.indexOf(S.sel.n); this.openRider(arr[(i-1+arr.length)%arr.length]); }
+      },
+      selNext: ()=>{
+        if (!S.sel) return;
+        if (S.sel.type==='player'){ const arr=board.map(p=>p.n), i=arr.indexOf(S.sel.n); this.openPlayer(arr[(i+1)%arr.length]); }
+        else if (S.sel.type==='rider'){ const arr=ranked.map(r=>r.n), i=arr.indexOf(S.sel.n); this.openRider(arr[(i+1)%arr.length]); }
+      },
+      nextQ: ()=>{ const L=(D.QUOTES||[]).length||1; this.setState(s=>({ qi:(s.qi+1)%L })); },
+      prevQ: ()=>{ const L=(D.QUOTES||[]).length||1; this.setState(s=>({ qi:(s.qi-1+L)%L })); },
+      closeSel: ()=>this.setState({sel:null}), stopSel: e=>e.stopPropagation(),
+      ...drawer,
+    };
+  }
+}
+</script>
+</body>
+</html>

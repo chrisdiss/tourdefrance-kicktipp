@@ -4,6 +4,8 @@ A web-based betting/prediction game for the **Tour de France 2026** — play aga
 
 The UI was designed in [Claude Design](https://claude.ai/design) and ships as a self-contained static site — no build step required.
 
+> **Status:** This is a **read-only standings dashboard** for an existing Tipprunde. Data is maintained by hand in `data.js` (current snapshot: after stage 9 of 21). There is no login, no online tip submission, and no automatic result import yet — those are on the roadmap below.
+
 ## 🎬 Live demo
 
 Once GitHub Pages is enabled (see below), the app is served at:
